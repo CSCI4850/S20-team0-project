@@ -57,7 +57,7 @@ class BrainVolumes:
                 
             for volume_type in self.file_extensions:
                 # load data of each volume type
-                volume_dir  = self.volumes_dir + "/" + self.dir_base_name + volume_type[1]
+                volume_dir  = "{}/{}{}".format(self.volumes_dir, self.dir_base_name, volume_type[1]) 
                 volume      = nib.load(volume_dir)
                 volume_data = volume.get_fdata()
                 self._add_data(volume_data, volume_type[0])
@@ -71,10 +71,13 @@ class BrainVolumes:
             
     def show_all_volume_dirs(self):
         for volume_type in self.file_extensions:
-            volume_dir  = self.volumes_dir + "/" + self.dir_base_name + volume_type
+            volume_dir  = "{}/{}{}".format(self.volumes_dir, self.dir_base_name, volume_type[1]) 
             print(volume_dir)
         
     def set_new_volume_dir(self, new_dir):
+        """
+        Use this function to load data from another volume
+        """
         self.volumes_dir   = self._check_dir(new_dir)
         self.dir_base_name = self._get_dir_base(new_dir)
         self.load_volume_data()
