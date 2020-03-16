@@ -20,19 +20,17 @@ def get_hgg_paths():
     Return path to HGG directory
     """
     
-    hgg_folders_path = sorted(
-                            list(
-                                sorted(
-                                    list(
-                                        sorted ( 
-                                                list( 
-                                                        pathlib.Path.cwd().parent.iterdir() 
-                                                ) 
-                                        )[7].iterdir()
-                                    )
-                                )[0].iterdir()
-                            )
-                        )[0]
+    for path in sorted ( list( pathlib.Path.cwd().parent.iterdir() ) ):
+        if path.name == "MICCAI_BraTS_2019_Data_Training":
+            hgg_folders_path =  sorted(
+                                        list(
+                                            sorted(
+                                                    list(
+                                                        path.iterdir()
+                                                    )
+                                            )[0].iterdir()
+                                        )
+                                )[0]
 
     return hgg_folders_path
 
