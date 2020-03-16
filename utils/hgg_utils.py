@@ -16,6 +16,8 @@ def get_hgg_paths():
         |   |   + -- HGG
         |
         +-- S20-team0-project  */ Cloned github repo */
+        
+    Return path to HGG directory
     """
     
     hgg_folders_path = sorted(
@@ -41,7 +43,7 @@ def get_each_hgg_folder( ):
     This will only work if imported in a file that lives inside the S20-team0-project directory
     Abbreviated expected directory setup for path to work:
 
-    Returns a list of paths to each HGG folder
+    Returns a sorted list of paths to each HGG folder
     """
     
     return sorted( [folder for folder in get_hgg_paths().iterdir() ] )
@@ -52,7 +54,7 @@ def get_scans_at_index( i ):
     This will only work if imported in a file that lives inside the S20-team0-project directory
     Abbreviated expected directory setup for path to work:
 
-    Returns the 5 modalities inside hgg folder at index i
+    Returns a sorted list of the 5 modalities inside hgg folder at index i
     """
     
     return sorted( [modality for modality in get_each_hgg_folder()[i].iterdir()] )
