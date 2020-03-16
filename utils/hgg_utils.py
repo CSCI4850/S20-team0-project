@@ -2,6 +2,9 @@
 
 import pathlib
 
+import nibabel as nib
+import matplotlib.pyplot as plt
+
 def get_hgg_paths():
     
     """
@@ -57,4 +60,45 @@ def get_scans_at_index( i ):
     
     return sorted( [modality for modality in get_each_hgg_folder()[i].iterdir()] )
     
-    
+def get_patient_data_at_index(i):
+    """
+    Returns a list of dictionaries with each dictionary containing a single slice across all modalities
+    """
+
+    file_types      = ["flair", "t1", "t1ce", "t2", "seg"]
+    file_extensions = ".nii.gz"
+    grouped_slices = []
+
+    # get paths to all patient volumes, or return empty list if paths not correct
+    all_volume_paths = get_scans_at_index(i)
+
+    # initialize data list
+    for i in range(155):
+        v_slice = {"flair": None, "t1": None, "t1ce": None, "t2": None, "seg": None, "s_id": i}
+        grouped_slices.append(v_slice)
+
+    for vol_path in all_volume_paths:
+        modality_type = [m_type for m_type in file_types if vol_path.match("*{}{}".format(m_type, file_extensions))][0]
+        volume_data    = nib.load(str(vol_path)).get_data()
+        
+        # add each slice of brain volume to volume_data list
+        for slice_num in range(155):
+            current_slice = volume_data[:,:,slice_num]
+            if grouped_slices[slice_num]["s_id"] == slice_num:
+                grouped_slices[slice_num][modality_type] = current_slice
+
+    return grouped_slices
+
+def display_slice(slice_list, slice_num, image_type):
+    """
+    Displays an image of desired slice
+    """
+    if slice_num < 0:
+        print("Index out of range")
+        return
+    if len(slice_list) == 0:
+        print("No data is loaded")
+        return
+    if slice_num < len(slice_list):
+        plt.imshow(slice_list[slice_num][image_type])
+        plt.show()
