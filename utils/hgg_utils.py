@@ -100,5 +100,6 @@ def display_slice(slice_list, slice_num, image_type):
         print("No data is loaded")
         return
     if slice_num < len(slice_list):
-        plt.imshow(slice_list[slice_num][image_type].T)
+        # .T corrects img orientation, Greys_r gives correct black & white img
+        plt.imshow(slice_list[slice_num][image_type].T, cmap='Greys_r') 
         plt.show()
