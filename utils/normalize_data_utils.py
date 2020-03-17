@@ -16,6 +16,7 @@ def get_brain_region(brain_slice):
                 brain_region.append(brain_slice[i,j])
     return brain_region
 
+
 def mean_standard_norm_slice(brain_slice):
     normalized_slice = brain_slice.copy()
     brain_region_intensities = get_brain_region(brain_slice)
@@ -34,6 +35,7 @@ def mean_standard_norm_slice(brain_slice):
                     normalized_slice[i,j] = (brain_slice[i,j] - intensity_mean) / intensity_standard_dev        
     
     return normalized_slice
+
 
 def mean_standard_norm_volume(brain_volume_data):
     '''
