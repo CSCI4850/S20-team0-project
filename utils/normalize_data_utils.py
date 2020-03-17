@@ -1,7 +1,8 @@
 import numpy as np
 
+
 """
-NOTE : THESE FUNCTIONS ARE IN PROGRESS
+NOTE : THESE FUNCTIONS ARE IN PROGRESS, THEY WORK BUT THE MATH NEEDS TO BE QUADRUPLE TESTED
 """
 
 
@@ -18,16 +19,20 @@ def get_brain_region(brain_slice):
 
 
 def mean_standard_norm_slice(brain_slice):
+    """
+    Normalize a single slice
+    """
     normalized_slice = brain_slice.copy()
     brain_region_intensities = get_brain_region(brain_slice)
     # check if slice has any brain region
     if len(brain_region_intensities):
         intensity_mean         = np.mean(brain_region_intensities)
         intensity_standard_dev = np.std(brain_region_intensities)
-        
+        # don't perform any calculations if std dev == 0. 
+        # In this case all brain region values are the same
         if not intensity_standard_dev:
             return normalized_slice
-        # apply normalization algo to non-zero values and fill normalized_brain_volume array"
+        # apply normalization algo to non-zero values and fill normalized_brain_volume array
         # TO DO: what to do when standard deviation is zero
         for i in range(brain_slice.shape[0]):
             for j in range(brain_slice.shape[1]):
@@ -39,9 +44,7 @@ def mean_standard_norm_slice(brain_slice):
 
 def mean_standard_norm_volume(brain_volume_data):
     '''
-    - brain volume shape (240,240,155)
-    - 155 slices, 240x240 pixels each
-    - this function returns a normalized brain volume as a numpy array 
+    This function returns a normalized brain volume : same format as an unprocessed volume
     '''
     normalized_data = []
     # iterate through each group of slices, normalize each sice and add it to the dictionary
