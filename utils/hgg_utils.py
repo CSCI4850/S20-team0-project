@@ -89,6 +89,27 @@ def get_patient_data_at_index(i):
 
     return grouped_slices
 
+
+def get_mask_volume_at_index( index ): 
+
+    """
+    Purpose:
+        Return the mask/label volume correspoding to one patient at index 
+    
+    Args:
+        index: 
+            -index of patient whose mask volume you want to get
+    """
+    
+    list_of_single_patient_slice_dictionaries = get_patient_data_at_index( index )
+    
+    mask_volume = []
+    
+    for mask_slice_index in range(len( list_of_single_patient_slice_dictionaries )):
+        mask_volume.append( list_of_single_patient_slice_dictionaries[mask_slice_index]["seg"] )
+        
+    return mask_volume
+
 def display_slice(slice_list, slice_num, image_type):
     """
     Displays an image of desired slice
@@ -103,3 +124,6 @@ def display_slice(slice_list, slice_num, image_type):
         # .T corrects img orientation, Greys_r gives correct black & white img
         plt.imshow(slice_list[slice_num][image_type].T, cmap='Greys_r') 
         plt.show()
+        
+        
+        
