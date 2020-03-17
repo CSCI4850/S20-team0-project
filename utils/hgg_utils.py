@@ -100,5 +100,5 @@ def display_slice(slice_list, slice_num, image_type):
         print("No data is loaded")
         return
     if slice_num < len(slice_list):
-        plt.imshow(slice_list[slice_num][image_type])
+        plt.imshow(slice_list[slice_num][image_type].T)
         plt.show()
