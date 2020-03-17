@@ -1,9 +1,10 @@
 
 
 import pathlib
-
+import numpy as np
 import nibabel as nib
 import matplotlib.pyplot as plt
+from tqdm.notebook import tqdm
 
 def get_hgg_paths():
     
@@ -125,5 +126,48 @@ def display_slice(slice_list, slice_num, image_type):
         plt.imshow(slice_list[slice_num][image_type].T, cmap='Greys_r') 
         plt.show()
         
+def get_a_mask(patient_path):
+    
+    """
+    Purpose:
+        Returns a mask volume 240x240x155 as a numpy array of 32 bit floats.
+        
+    Args:
+        Path obj to a patient folder
+    
+    """
+    
+    # path to mask volume for a patient folder
+    mask_volume_path = [modality for modality in patient_path.iterdir() if modality.match("*seg.nii.gz") ][0]
+    
+    # load mask vol into memory
+    mask_vol = nib.load(mask_volume_path).get_fdata(dtype=np.float32)
+    
+    return mask_vol # of shape 240x240x155
+
+def get_all_mask_volumes():
+    
+    """
+    Purpose:
+        Returns all masks for dataset in a single numpy array of 32 bit floats.
+        Shape will be 259x240x240x155x1
+    """
+    
+    all_patient_paths = get_each_hgg_folder()
+    
+    # preallocate empty np array to hold all the masks
+    # dim 0   -> each patient
+    # dim 1&2 -> slice dimensions
+    # dim 3   -> number of slices for patient
+    # dim 4   -> necessary for feeding into CNN
+    all_masks = np.empty([259, 240, 240, 155, 1], dtype=np.float32)
+        
+    
+    # populate all_masks with every mask volume in dataset
+    for index, patient_path in tqdm( enumerate(all_patient_paths), total=len(all_patient_paths)   ):
+        
+        all_masks[index, :, :, :, 0] = get_a_mask(patient_path)
+    
+    return all_masks
         
         
