@@ -68,7 +68,7 @@ def get_patient_data_at_index(i):
 
     file_types      = ["flair", "t1", "t1ce", "t2", "seg"]
     file_extensions = ".nii.gz"
-    grouped_slices = []
+    grouped_slices  = []
 
     # get paths to all patient volumes, or return empty list if paths not correct
     all_volume_paths = get_scans_at_index(i)
@@ -80,7 +80,7 @@ def get_patient_data_at_index(i):
 
     for vol_path in all_volume_paths:
         modality_type = [m_type for m_type in file_types if vol_path.match("*{}{}".format(m_type, file_extensions))][0]
-        volume_data    = nib.load(str(vol_path)).get_data()
+        volume_data   = nib.load(str(vol_path)).get_data()
         
         # add each slice of brain volume to volume_data list
         for slice_num in range(155):
