@@ -170,4 +170,99 @@ def get_all_mask_volumes():
     
     return all_masks
         
+def get_multimodal_volume_for_patient(patient_path):
+    
+    """
+    Purpose:
+        Returns a multimodal volume 240x240x155x4 as a numpy array of 32 bit floats.
         
+    Args:
+        Path obj to a patient folder
+    
+    """
+    
+    non_mask_modalities_paths = [modality for modality in patient_path.iterdir() if not modality.match("*seg.nii.gz") ]
+    
+    non_mask_modalities_vols = [nib.load(x).get_fdata(dtype=np.float32) for x in non_mask_modalities_paths]
+
+    multimodal_vol = np.stack(
+                            (
+                            non_mask_modalities_vols[0],
+                            non_mask_modalities_vols[1],
+                            non_mask_modalities_vols[2],
+                            non_mask_modalities_vols[3]
+                            ),
+
+                            axis=3
+
+    )
+    
+    return multimodal_vol
+
+def get_all_input_volumes():
+
+    """
+    Purpose:
+        -returns the X input tensor of shape (259, 240, 240, 155, 4) where:
+            -dim 0   -> patient index
+            -dim 1&2 -> slice dimension
+            -dim3    -> slice index
+            -dim4    -> modalities
+    
+    """
+    
+    all_patient_paths = get_each_hgg_folder()
+
+    all_multimodal_volumes = np.empty([259, 240, 240, 155, 4], dtype=np.float32)
+    
+    for index, patient in tqdm( enumerate(all_patient_paths), total=len(all_patient_paths) ):
+        all_multimodal_volumes[index, :, :, :, :] = get_multimodal_volume_for_patient(patient_path=patient)
+        
+    return all_multimodal_volumes
+
+
+
+def print_multimodal_slice(multimod_vol, patient_idx, slice_idx):
+
+    """
+    Purpose:
+        Print a slice from a multimodal volume.
+        This plots each 2D modality that is a part of the multimodal slice.
+        Will print flair slice, t1 slice, t1ce slice, t2 slice.
+        
+    Args:
+        multimodal_vol
+            -numpy array of a multimodal volume. expected shape: (259, 240,240,155,4)
+        
+        patient_idx
+            -index of patient
+            
+        slice_idx
+            -slice index to be printed
+    
+    """
+    
+    
+    plt.figure(1, figsize=(8,8))
+
+    plt.subplot(221)
+    plt.title("flair")
+    plt.imshow(multimod_vol[patient_idx,:,:,slice_idx,0].T, cmap="Greys_r")
+
+    plt.subplot(222)
+    plt.title("t1")
+    plt.imshow(multimod_vol[patient_idx,:,:,slice_idx,1].T, cmap="Greys_r")
+
+    plt.subplot(223)
+    plt.title("t1ce")
+    plt.imshow(multimod_vol[patient_idx,:,:,slice_idx,2].T, cmap="Greys_r")
+
+    plt.subplot(224)
+    plt.title("t2")
+    plt.imshow(multimod_vol[patient_idx,:,:,slice_idx,3].T, cmap="Greys_r")
+
+    plt.tight_layout()
+    plt.show()
+    
+    
+    
