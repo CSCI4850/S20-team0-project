@@ -265,4 +265,81 @@ def print_multimodal_slice(multimod_vol, patient_idx, slice_idx):
     plt.show()
     
     
+def convert_mask_to_binary_mask( mask ):
+
+    """
+    Purpose:
+        Given a mask tensor, convert all non-zero values to 1.
+        This converts the mask into a binary mask.
+        
+    Args: 
+        mask
+            -a mask tensor as a numpy array
+    
+    
+    """
+    
+    # Any val greater than 0 becomes 1
+    mask[np.where(mask > 0)] = 1
+    
+    return mask
+
+def get_a_multimodal_tensor( patient_path ):
+
+    """
+    Purpose:
+        Return a multimodal tensor of np.float32 for a patient path.
+        ie. combine the flair volume, t1 volume, t1ce volume, and t2 volume for a patient
+        shape will be (240, 240, 155, 4)
+        idx 0 & 1 -> heaight and width
+        idx 2 -> slices
+        idx 3 -> channels (flair, t1, t1ce, t2)
+    
+    Args:
+        patient_path
+            -path obj to patient folder
+    
+    """
+    
+    
+    multimodal_tensor = np.ones([240, 240, 155, 4], dtype=np.float32)
+
+    four_modalities = [scan for scan in patient_path.iterdir() if not scan.match("*seg.nii.gz")]
+
+    for idx, scan in enumerate(four_modalities):
+
+        multimodal_tensor[:, :, :, idx] = nib.load(scan).get_fdata() 
+    
+    return multimodal_tensor
+
+
+def get_a_mask_tensor( patient_path ):
+
+    """
+    Purpose:
+        Return a mask tensor of np.float32 for a patient path.
+        shape will be (240, 240, 155, 1)
+        idx 0 & 1 -> heaight and width
+        idx 2 -> slices
+        idx 3 -> channels (flair, t1, t1ce, t2)
+    
+    Args:
+        patient_path
+            -path obj to patient folder
+    
+    """
+    
+    mask = np.ones([240, 240, 155, 1], dtype=np.float32)
+
+    mask_path = [scan for scan in patient_path.iterdir() if scan.match("*seg.nii.gz")]
+
+    for scan in mask_path:
+        
+        mask[:, :, :, 0] = nib.load(scan).get_fdata() 
+    
+    return mask
+
+
+
+    
     
