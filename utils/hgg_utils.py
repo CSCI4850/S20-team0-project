@@ -245,26 +245,40 @@ def print_multimodal_slice(multimod_vol, patient_idx=np.nan, slice_idx=0):
     # if multimodal vol is for 1 patient
     # shape (240, 240, 155, 4)
     if np.isnan(patient_idx):
-        plt.figure(1, figsize=(8,8))
+        
+        # multimodal_vol is actually a multimodal vol
+        if multimod_vol.shape[-1] == 4:
+            plt.figure(1, figsize=(8,8))
 
-        plt.subplot(221)
-        plt.title("flair")
-        plt.imshow(multimod_vol[:,:,slice_idx,0].T, cmap="Greys_r")
+            plt.subplot(221)
+            plt.title("flair")
+            plt.imshow(multimod_vol[:,:,slice_idx,0].T, cmap="Greys_r")
 
-        plt.subplot(222)
-        plt.title("t1")
-        plt.imshow(multimod_vol[:,:,slice_idx,1].T, cmap="Greys_r")
+            plt.subplot(222)
+            plt.title("t1")
+            plt.imshow(multimod_vol[:,:,slice_idx,1].T, cmap="Greys_r")
 
-        plt.subplot(223)
-        plt.title("t1ce")
-        plt.imshow(multimod_vol[:,:,slice_idx,2].T, cmap="Greys_r")
+            plt.subplot(223)
+            plt.title("t1ce")
+            plt.imshow(multimod_vol[:,:,slice_idx,2].T, cmap="Greys_r")
 
-        plt.subplot(224)
-        plt.title("t2")
-        plt.imshow(multimod_vol[:,:,slice_idx,3].T, cmap="Greys_r")
+            plt.subplot(224)
+            plt.title("t2")
+            plt.imshow(multimod_vol[:,:,slice_idx,3].T, cmap="Greys_r")
 
-        plt.tight_layout()
-        plt.show()
+            plt.tight_layout()
+            plt.show()
+            
+        # multimodal_vol is actually a mask -- this function should probably be renamed
+        elif multimod_vol.shape[-1] == 1:
+            plt.figure(1, figsize=(8,8))
+
+            plt.subplot(221)
+            plt.title("mask")
+            plt.imshow(multimod_vol[:,:,slice_idx,0].T, cmap="Greys_r")
+
+            plt.tight_layout()
+            plt.show()
     
     # if multimodal vol is for all patients
     # shape (259, 240, 240, 155, 4)
