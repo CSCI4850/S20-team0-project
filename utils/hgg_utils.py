@@ -241,9 +241,7 @@ def print_multimodal_slice(multimod_vol, patient_idx=np.nan, slice_idx=0):
             -slice index to be printed
     
     """
-    
-    print(patient_idx)
-    
+        
     # if multimodal vol is for 1 patient
     # shape (240, 240, 155, 4)
     if np.isnan(patient_idx):
