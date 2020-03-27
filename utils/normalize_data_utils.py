@@ -1,6 +1,5 @@
 import numpy as np
 
-
 """
 NOTE : THESE FUNCTIONS ARE IN PROGRESS, THEY WORK BUT THE MATH NEEDS TO BE QUADRUPLE CHECKED
 """
@@ -57,3 +56,4 @@ def mean_standard_norm_volume(brain_volume_data):
                     "s_id": slice_group["s_id"]}
         normalized_data.append(v_slice)
     return normalized_data
+
