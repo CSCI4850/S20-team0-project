@@ -1,5 +1,7 @@
 from keras import backend as K
 
+# Much of this came from https://github.com/jocicmarko/ultrasound-nerve-segmentation
+
 def dice_coef(truth, prediction, smooth=1):
     true_f = K.flatten(truth)
     pred_f = K.flatten(prediction)
