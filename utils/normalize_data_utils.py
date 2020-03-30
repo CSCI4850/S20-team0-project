@@ -122,10 +122,10 @@ def download_scaled_dataset(scale_value=None):
             normalized_data_path.mkdir()
         
         for modality in file_types:
-            file_path = normalized_data_path.joinpath("{}{}{}{}".format(patient_path.name, '_', modality, file_extension))
-            temp = [slice_group[modality] for slice_group in normalize_patient_data]
+            file_path  = normalized_data_path.joinpath("{}{}{}{}".format(patient_path.name, '_', modality, file_extension))
+            temp       = [slice_group[modality] for slice_group in normalize_patient_data]
             array_data = np.asarray(temp)
             array_data = np.moveaxis(array_data, 0, -1)
-            affine = np.diag([1, 1, 1, 1]) 
+            affine     = np.diag([1, 1, 1, 1]) 
             array_img  = nib.Nifti1Image(array_data, affine)
             nib.save(array_img, file_path)
