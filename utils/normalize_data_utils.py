@@ -103,6 +103,11 @@ def download_scaled_dataset(scale_value=None):
     normalized_hgg    = hgg_utils.get_hgg_paths().parent.joinpath('scaled_hgg')
     all_patient_paths = hgg_utils.get_each_hgg_folder()
 
+    print("Normalized data will be downloaded to following directory:")
+    print(normalized_hgg)
+    if input("Download Data? y/n : ") == 'n':
+        return
+
     file_types      = ["flair", "t1", "t1ce", "t2", "seg"]
     file_extension  = ".nii.gz"
     if not normalized_hgg.exists():
