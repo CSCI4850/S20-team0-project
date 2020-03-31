@@ -1,9 +1,13 @@
+from utils import hgg_utils
+from utils import normalize_data_utils as norm
 import numpy as np
+import nibabel as nib
+import pathlib
+from tqdm import tqdm
 
 """
 NOTE : THESE FUNCTIONS ARE IN PROGRESS, THEY WORK BUT THE MATH NEEDS TO BE QUADRUPLE CHECKED
 """
-
 
 def get_brain_region(brain_slice):
     """
@@ -57,3 +61,71 @@ def mean_standard_norm_volume(brain_volume_data):
         normalized_data.append(v_slice)
     return normalized_data
 
+
+def scale_slice(brain_slice, scale_factor=None):
+    '''
+    Scales each pixel by given value
+    If no scale value is given, uses (1.0/max_pixel_value)
+    '''
+    normalized_slice = brain_slice.copy()
+    if scale_factor is None:
+        max_value = brain_slice.max()
+        if not max_value:
+            # return original slice if all zero value
+            return normalized_slice
+        else:
+            scale_factor = (1.0/max_value)
+    return (normalized_slice * scale_factor)
+
+
+def scale_volume(brain_volume_data, scale_factor=None):
+    '''
+    This function scales every pixel value by desired factor
+    '''
+    normalized_data = []
+    # iterate through each group of slices, scale pixel values
+    for slice_group in brain_volume_data:
+        v_slice = {"flair": scale_slice(slice_group["flair"], scale_factor), 
+                    "t1"  : scale_slice(slice_group["t1"], scale_factor), 
+                    "t1ce": scale_slice(slice_group["t1ce"], scale_factor), 
+                    "t2"  : scale_slice(slice_group["t2"], scale_factor), 
+                    "seg" : scale_slice(slice_group["seg"], scale_factor),
+                    "s_id": slice_group["s_id"]}
+        normalized_data.append(v_slice)
+    return normalized_data
+
+
+def download_scaled_dataset(scale_value=None):
+    '''
+    If scale value is None uses (1.0/slices_max_pixel_value)
+    Creates a standardized dataset in dir : .../MICCAI_BraTS_2019_Data_Training/MICCAI_BraTS_2019_Data_Training/scaled_hgg
+    '''
+    normalized_hgg    = hgg_utils.get_hgg_paths().parent.joinpath('scaled_hgg')
+    all_patient_paths = hgg_utils.get_each_hgg_folder()
+
+    print("Normalized data will be downloaded to following directory:")
+    print(normalized_hgg)
+    if input("Download Data? y/n : ") == 'n':
+        return
+
+    file_types      = ["flair", "t1", "t1ce", "t2", "seg"]
+    file_extension  = ".nii.gz"
+    if not normalized_hgg.exists():
+        normalized_hgg.mkdir()
+
+    for i in tqdm(range(len(all_patient_paths))):  
+        patient_path           = all_patient_paths[i]                   # path to current patient
+        patient_data           = hgg_utils.get_patient_data_at_index(i) # data for current patient
+        normalized_data_path   = normalized_hgg.joinpath(patient_path.name)
+        normalize_patient_data = scale_volume(patient_data, scale_value)
+        if not normalized_data_path.exists():
+            normalized_data_path.mkdir()
+        
+        for modality in file_types:
+            file_path  = normalized_data_path.joinpath("{}{}{}{}".format(patient_path.name, '_', modality, file_extension))
+            temp       = [slice_group[modality] for slice_group in normalize_patient_data]
+            array_data = np.asarray(temp)
+            array_data = np.moveaxis(array_data, 0, -1)
+            affine     = np.diag([1, 1, 1, 1]) 
+            array_img  = nib.Nifti1Image(array_data, affine)
+            nib.save(array_img, file_path)
