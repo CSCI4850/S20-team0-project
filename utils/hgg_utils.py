@@ -379,7 +379,21 @@ def get_a_mask_tensor( patient_path ):
     
     return mask
 
-
+def reshape_tensor_with_slices_first( tensor ):
+    
+    """
+    Purpose:
+        Move the axis at index 2 to index 0
+        It would affect a multimodal input tensor shape: (240, 240, 155, 4) -> (155, 240, 240, 4)
+        ie. puts the slices in the 0th index
+        
+    Args:
+        tensor
+            -A 4D tensor, like a multimodal tensor or a mask tensor
+    """
+    
+    return np.moveaxis( tensor , 2, 0)
+    
 
     
     
