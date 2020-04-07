@@ -339,6 +339,8 @@ def get_a_multimodal_tensor( patient_path ):
         patient_path
             -path obj to patient folder
     
+    update:
+        return affines and path as well
     """
     
     
@@ -346,11 +348,18 @@ def get_a_multimodal_tensor( patient_path ):
 
     four_modalities = [scan for scan in patient_path.iterdir() if not scan.match("*seg.nii.gz")]
 
+    affines = []
+    
     for idx, scan in enumerate(four_modalities):
 
-        multimodal_tensor[:, :, :, idx] = nib.load(scan).get_fdata() 
+        nifti_obj = nib.load(scan)
+        
+        multimodal_tensor[:, :, :, idx] = nifti_obj.get_fdata() 
+        affines.append( nifti_obj.affine ) 
     
-    return multimodal_tensor
+    paths_to_modalities = sorted(four_modalities)
+    
+    return multimodal_tensor, affines, paths_to_modalities
 
 
 def get_a_mask_tensor( patient_path ):
