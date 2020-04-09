@@ -493,5 +493,30 @@ def load_n_masks(data, num_to_load, paths):
     
     return data
 
+def remove_outliers( patient_paths ):    
     
+    outliers = [
+
+        "BraTS19_CBICA_ANG_1",
+        "BraTS19_CBICA_ASN_1",
+        "BraTS19_CBICA_AUN_1",
+        "BraTS19_CBICA_AXL_1",
+        "BraTS19_CBICA_AYI_1",
+        "BraTS19_CBICA_AYU_1",
+        "BraTS19_CBICA_AOC_1",
+        "BraTS19_CBICA_AOS_1",
+        "BraTS19_CBICA_ATN_1",
+        "BraTS19_CBICA_AWV_1",
+        "BraTS19_CBICA_AYC_1",
+        "BraTS19_TCIA02_226_1",
+        "BraTS19_TCIA02_208_1",
+        "BraTS19_TCIA04_343_1",
+        "BraTS19_TCIA04_361_1",
+        "BraTS19_TCIA05_444_1",
+
+    ]
+    
+    no_outliers = [x for x in patient_paths if x.name not in outliers]
+    
+    return no_outliers
     
