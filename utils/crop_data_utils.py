@@ -21,22 +21,27 @@ Input (6x6):        Output (2x2, - denotes cropped pixel):
 """
 LAYERS_TO_CROP = 16
 
-def crop_slice(slice):
-    #####
-    cropped_slice = slice[LAYERS_TO_CROP : -LAYERS_TO_CROP, LAYERS_TO_CROP : -LAYERS_TO_CROP]
+def save_cropped_data(tensor, affines_list, mod_paths, destination):
+    patient_paths = [x.parent.stem for x in mod_paths]
+    mods = [x.name for x in mod_paths]
 
-def crop_patient_data(data):
-    #Function to crop the data. input is all modalities and slices for a patient
-    cropped_data = []
-    for slice_group in data:
-        v_slice = {"flair": crop_slice(slice_group["flair"]),
-                   "t1"   : crop_slice(slice_group["t1"]),
-                   "t1ce" : crop_slice(slice_group["t1ce"]),
-                   "t2"   : crop_slice(slice_group["t2"]),
-                   "seg"  : crop_slice(slice_group["seg"]),
-                   "s_id" : slice_group["s_id"] }
-        cropped_data.append(v_slice)
-    return cropped_data
+    for modality in range(tensor.shape[-1]):
+
+        new_file_name = "cropped_" + str(mods[modality])
+
+        new_patient_folder = destination.joinpath(patient_paths[modality])
+
+        if not new_patient_folder.exists():
+            new_patient_folder.mkdir()
+
+        new_dest = new_patient_folder.joinpath(new_file_name)
+
+        a = nib.Nifti1Image(tensor[:, :, :, modality], affine=affines_list[modality])
+
+        nib.save(a, new_dest)
+
+def crop_patient_tensor(tensor):
+    return tensor[LAYERS_TO_CROP : -LAYERS_TO_CROP, LAYERS_TO_CROP : -LAYERS_TO_CROP, :, :]
 
 
 def crop_dataset_images():
@@ -45,24 +50,15 @@ def crop_dataset_images():
 
     print("Cropped slices will be saved in directory: ")
     print(cropped_hgg_directory)
-    if ("Do you want to continue? y/n: ") == 'n':
-        return
-
-    file_types = ["flair", "t1", "t1ce", "t2", "seg"]
-    file_extension = "nii.gz"
 
     # Check to see if directory folder already exists
     # before creating one.
     if not cropped_hgg_directory.exists():
         cropped_hgg_directory.mkdir()
 
-    for i in tqdm(range(len(all_patient_paths))):
-        patient_path = all_patient_paths[i]
-        patient_data = hu.get_patient_data_at_index(i)
-        cropped_data_path = cropped_hgg_directory.joinpath(patient_path.name)
-        cropped_patient_data_ = crop_patient_data(patient_data)
-
-        if not cropped_data_path.exists():
-            cropped_data_path.mkdir()
+    for patient in tqdm(range(len(all_patient_paths))):
+        X, affines, paths = hu.get_a_multimodal_tensor(patient)
+        cropped_tensor = crop_patient_tensor(X)
+        save_cropped_data(cropped_tensor, affines, paths, cropped_hgg_directory)
 
 
