@@ -3,9 +3,7 @@ Utilities to be used in cropping images
 """
 
 import utils.hgg_utils as hu
-import numpy as np
 import nibabel as nib
-import pathlib
 import tqdm as tqdm
 
 """
@@ -45,9 +43,12 @@ def crop_patient_tensor(tensor):
 
 
 def crop_dataset_images():
+    # Define name of folder to save data to
     cropped_hgg_directory = hu.get_hgg_paths().parent.joinpath('cropped_hgg')
+    # Get paths to all patient folders
     all_patient_paths = hu.get_each_hgg_folder()
 
+    # Print path to directory where data will be saved
     print("Cropped slices will be saved in directory: ")
     print(cropped_hgg_directory)
 
@@ -56,7 +57,11 @@ def crop_dataset_images():
     if not cropped_hgg_directory.exists():
         cropped_hgg_directory.mkdir()
 
-    for patient in tqdm(range(len(all_patient_paths))):
+    # Iterate through each patient
+    #   Load patient tensor
+    #   Crop tensor
+    #   Save tensor
+    for patient in tqdm(all_patient_paths):
         X, affines, paths = hu.get_a_multimodal_tensor(patient)
         cropped_tensor = crop_patient_tensor(X)
         save_cropped_data(cropped_tensor, affines, paths, cropped_hgg_directory)
