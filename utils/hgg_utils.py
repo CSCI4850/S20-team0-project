@@ -447,6 +447,51 @@ def reshape_tensor_with_slices_first( tensor ):
     
     return np.moveaxis( tensor , 2, 0)
     
+def load_n_brains(data, num_to_load, paths):
+
+    data_idx = 0
+    num_slices = 155
+    brains_seen = 0
+
+    for multimodal_tensor in tqdm(range(num_to_load)):
+
+        four_channel_scan = reshape_tensor_with_slices_first(
+                                get_a_multimodal_tensor( 
+                                            paths[multimodal_tensor] 
+                                )[data_idx]
+        )
+
+
+        for slic in range(num_slices):
+            data[slic+(num_slices*brains_seen),:,:,:] = four_channel_scan[slic,:,:,:]
+
+        brains_seen += 1
+    
+    return data
+
+
+def load_n_masks(data, num_to_load, paths):
+
+    data_idx = 0
+    num_slices = 155
+    brains_seen = 0
+
+    for mask in tqdm(range(num_to_load)):
+
+        mask =  reshape_tensor_with_slices_first(
+                                convert_mask_to_binary_mask(
+                                     get_a_mask_tensor( paths[mask] )
+                                
+                               )
+        )
+
+
+        for slic in range(num_slices):
+            data[slic+(num_slices*brains_seen),:,:,:] = mask[slic,:,:,:]
+
+        brains_seen += 1
+    
+    return data
 
     
     
