@@ -128,7 +128,8 @@ def unet(input_size, ds=1):
     
     conv_9 = Conv2D(filters = 1, 
                     kernel_size = 1, 
-                    activation = 'sigmoid')(conv_8)
+                    activation = 'sigmoid',
+                    dtype="float32")(conv_8)
     
     
     model = Model(inputs=inp, outputs=conv_9)
