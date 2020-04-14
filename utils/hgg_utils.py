@@ -50,6 +50,50 @@ def get_each_hgg_folder( ):
     
     return sorted( [folder for folder in get_hgg_paths().iterdir() ] )
     
+def get_normalized_hgg_paths():
+    
+    """
+    This will only work if imported in a file that lives inside the S20-team0-project directory
+    Abbreviated expected directory setup for path to work:
+
+    ./some_directory_to_hold_everything/
+        +-- MICCAI_BraTS_2019_Data_Training
+        |
+        |   +-- MICCAI_BraTS_2019_Data_Training
+        |
+        |   |   + -- HGG
+        |
+        +-- S20-team0-project  */ Cloned github repo */
+        
+    Return path to HGG directory
+    """
+    
+    for path in sorted ( list( pathlib.Path.cwd().parent.iterdir() ) ):
+        if path.name == "MICCAI_BraTS_2019_Data_Training":
+            hgg_folders_path =  sorted(
+                                        list(
+                                            sorted(
+                                                    list(
+                                                        path.iterdir()
+                                                    )
+                                            )[0].iterdir()
+                                        )
+                                )[3]
+
+    return hgg_folders_path
+
+
+def get_each_normalized_hgg_folder( ):
+    
+    """
+    This will only work if imported in a file that lives inside the S20-team0-project directory
+    Abbreviated expected directory setup for path to work:
+
+    Returns a sorted list of paths to each HGG folder
+    """
+    
+    return sorted( [folder for folder in get_normalized_hgg_paths().iterdir() ] )
+    
 def get_scans_at_index( i ):
     
     """
@@ -339,6 +383,8 @@ def get_a_multimodal_tensor( patient_path ):
         patient_path
             -path obj to patient folder
     
+    update:
+        return affines and path as well
     """
     
     
@@ -346,11 +392,18 @@ def get_a_multimodal_tensor( patient_path ):
 
     four_modalities = [scan for scan in patient_path.iterdir() if not scan.match("*seg.nii.gz")]
 
+    affines = []
+    
     for idx, scan in enumerate(four_modalities):
 
-        multimodal_tensor[:, :, :, idx] = nib.load(scan).get_fdata() 
+        nifti_obj = nib.load(scan)
+        
+        multimodal_tensor[:, :, :, idx] = nifti_obj.get_fdata() 
+        affines.append( nifti_obj.affine ) 
     
-    return multimodal_tensor
+    paths_to_modalities = sorted(four_modalities)
+    
+    return multimodal_tensor, affines, paths_to_modalities
 
 
 def get_a_mask_tensor( patient_path ):
@@ -379,7 +432,91 @@ def get_a_mask_tensor( patient_path ):
     
     return mask
 
-
-
+def reshape_tensor_with_slices_first( tensor ):
     
+    """
+    Purpose:
+        Move the axis at index 2 to index 0
+        It would affect a multimodal input tensor shape: (240, 240, 155, 4) -> (155, 240, 240, 4)
+        ie. puts the slices in the 0th index
+        
+    Args:
+        tensor
+            -A 4D tensor, like a multimodal tensor or a mask tensor
+    """
+    
+    return np.moveaxis( tensor , 2, 0)
+    
+def load_n_brains(data, num_to_load, paths):
+
+    data_idx = 0
+    num_slices = 155
+    brains_seen = 0
+
+    for multimodal_tensor in tqdm(range(num_to_load)):
+
+        four_channel_scan = reshape_tensor_with_slices_first(
+                                get_a_multimodal_tensor( 
+                                            paths[multimodal_tensor] 
+                                )[data_idx]
+        )
+
+
+        for slic in range(num_slices):
+            data[slic+(num_slices*brains_seen),:,:,:] = four_channel_scan[slic,:,:,:]
+
+        brains_seen += 1
+    
+    return data
+
+
+def load_n_masks(data, num_to_load, paths):
+
+    data_idx = 0
+    num_slices = 155
+    brains_seen = 0
+
+    for mask in tqdm(range(num_to_load)):
+
+        mask =  reshape_tensor_with_slices_first(
+                                convert_mask_to_binary_mask(
+                                     get_a_mask_tensor( paths[mask] )
+                                
+                               )
+        )
+
+
+        for slic in range(num_slices):
+            data[slic+(num_slices*brains_seen),:,:,:] = mask[slic,:,:,:]
+
+        brains_seen += 1
+    
+    return data
+
+def remove_outliers( patient_paths ):    
+    
+    outliers = [
+
+        "BraTS19_CBICA_ANG_1",
+        "BraTS19_CBICA_ASN_1",
+        "BraTS19_CBICA_AUN_1",
+        "BraTS19_CBICA_AXL_1",
+        "BraTS19_CBICA_AYI_1",
+        "BraTS19_CBICA_AYU_1",
+        "BraTS19_CBICA_AOC_1",
+        "BraTS19_CBICA_AOS_1",
+        "BraTS19_CBICA_ATN_1",
+        "BraTS19_CBICA_AWV_1",
+        "BraTS19_CBICA_AYC_1",
+        "BraTS19_TCIA02_226_1",
+        "BraTS19_TCIA02_208_1",
+        "BraTS19_TCIA04_343_1",
+        "BraTS19_TCIA04_361_1",
+        "BraTS19_TCIA05_444_1",
+
+    ]
+    
+    no_outliers = [x for x in patient_paths if x.name not in outliers]
+    
+    return no_outliers
     
