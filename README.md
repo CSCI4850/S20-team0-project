@@ -16,7 +16,7 @@ Training U-net on medical images benefits greatly from GPU acceleration. Having 
 We wanted to test how reducing the size of U-net would affect performance on tumor segmentation in brain MRI. We reduced the number of filters in the convolutional layers in U-net, which reduces the amount of VRAM required. 4 experiments were performed showing how U-net performance varies when it has all the filters, half the filters, a quarter of the filters, and an eighth of the filters. 
 
 ### Dependencies:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Install python 3.7.6 https://www.python.org/downloads/ 
+Install python 3.7.6 https://www.python.org/downloads/ 
 
 Navigate to cloned repo and run this command in the terminal:
 pip install -r requirements.txt
@@ -29,20 +29,20 @@ https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 # Demo: Option A    (Fast ~10 mins)
 # Read the Demo 
 
-#### 1. Read the Demo
-To see the performance of our trained models check out the demo here:
-demo.ipynb
+### 1. Read the Demo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To see the performance of our trained models check out the demo here:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo.ipynb
 
 # Demo: Option B    (Slow ~3 days)
 # Download Data, Normalize Data, and use Pretrained Models
 
-#### 1. Download the Data
-NOTE* The dataset is ONLY available by request--a request may take several days to process. Follow the instructions here to request the data: https://www.med.upenn.edu/cbica/brats2019/registration.html 
+### 1. Download the Data
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTE* The dataset is ONLY available by request--a request may take several days to process. Follow the instructions here to request the data: https://www.med.upenn.edu/cbica/brats2019/registration.html 
 
-Before running the demo, you will need to download the data, place it at the same level in the file structure as the cloned repo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before running the demo, you will need to download the data, place it at the same level in the file structure as the cloned repo
 
-#### 2. Normalize the Data
-Run the jupyter notebook named normalize_and_save_all_data.ipynb to save the normalized data.
+### 2. Normalize the Data
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run the jupyter notebook named normalize_and_save_all_data.ipynb to save the normalized data.
 
 This should produce a file structure like:
 
@@ -57,27 +57,27 @@ This should produce a file structure like:
 +-- S20-team0-project
 |    +-- … //this is the cloned repo contents
 
-#### 3. Run the Demo using Pretrained Weights
-Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
+### 3. Run the Demo using Pretrained Weights
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
 
 # Demo: Option C     (Slowest ~5 days) 
 # Download Data, Normalize Data, and Train the Models Yourself
 
 
-#### 1. Download Data and Normalize Data
-Follow steps 1 & 2 in Option B.
+### 1. Download Data and Normalize Data
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Follow steps 1 & 2 in Option B.
 
-#### 2. Train the models  (this overwrites the saved pretrained models)
+### 2. Train the models  (this overwrites the saved pretrained models)
 
-There are 4 experiments to run.
-NOTE* each experiment may take 10+ hours to run.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are 4 experiments to run.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTE* each experiment may take 10+ hours to run.
 
-Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
 
-ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
 
-#### 3. Run the Demo
-Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
+### 3. Run the Demo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
