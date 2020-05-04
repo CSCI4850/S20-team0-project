@@ -29,19 +29,19 @@ https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 # Demo: Option A    (Fast ~10 mins)
 # Read the Demo 
 
-### Read the Demo
+#### 1. Read the Demo
 To see the performance of our trained models check out the demo here:
 demo.ipynb
 
 # Demo: Option B    (Slow ~3 days)
-# Download Data, Normalize Data, and use Pretrained Models:
+# Download Data, Normalize Data, and use Pretrained Models
 
-### Download the Data
+#### 1. Download the Data
 NOTE* The dataset is ONLY available by request--a request may take several days to process. Follow the instructions here to request the data: https://www.med.upenn.edu/cbica/brats2019/registration.html 
 
 Before running the demo, you will need to download the data, place it at the same level in the file structure as the cloned repo
 
-### Normalize the Data
+#### 2. Normalize the Data
 Run the jupyter notebook named normalize_and_save_all_data.ipynb to save the normalized data.
 
 This should produce a file structure like:
@@ -57,17 +57,17 @@ This should produce a file structure like:
 +-- S20-team0-project
 |    +-- … //this is the cloned repo contents
 
-### Run the Demo using Pretrained Weights
+#### 3. Run the Demo using Pretrained Weights
 Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
 
 # Demo: Option C     (Slowest ~5 days) 
-# Download Data, Normalize Data, and Train the Models Yourself:
+# Download Data, Normalize Data, and Train the Models Yourself
 
 
-### Download Data and Normalize Data
+#### 1. Download Data and Normalize Data
 Follow steps 1 & 2 in Option B.
 
-### Train the models  (this overwrites the saved pretrained models)
+#### 2. Train the models  (this overwrites the saved pretrained models)
 
 There are 4 experiments to run.
 NOTE* each experiment may take 10+ hours to run.
@@ -79,5 +79,5 @@ Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
 
 ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
 
-### Run the Demo
+#### 3. Run the Demo
 Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
