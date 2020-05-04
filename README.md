@@ -16,7 +16,7 @@ Training U-net on medical images benefits greatly from GPU acceleration. Having 
 We wanted to test how reducing the size of U-net would affect performance on tumor segmentation in brain MRI. We reduced the number of filters in the convolutional layers in U-net, which reduces the amount of VRAM required. 4 experiments were performed showing how U-net performance varies when it has all the filters, half the filters, a quarter of the filters, and an eighth of the filters. 
 
 ### Dependencies:
-  Install python 3.7.6 https://www.python.org/downloads/ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Install python 3.7.6 https://www.python.org/downloads/ 
 
 Navigate to cloned repo and run this command in the terminal:
 pip install -r requirements.txt
