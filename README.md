@@ -46,16 +46,16 @@ https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 
 This should produce a file structure like:
 
-####+-- MICCAI_BraTS_2019_Data_Training     //this is the dataset
-####|    +-- MICCAI_BraTS_2019_Data_Training
-####|    |     +-- HGG
-####|    |     +-- …
-####|    |     +-- normalized_hgg  //this folder contains the normalized data we just created
-####|    |     +-- ...
-####|
-####|
-####+-- S20-team0-project
-####|    +-- … //this is the cloned repo contents
+#### +-- MICCAI_BraTS_2019_Data_Training     //this is the dataset
+#### |    +-- MICCAI_BraTS_2019_Data_Training
+#### |    |     +-- HGG
+#### |    |     +-- …
+#### |    |     +-- normalized_hgg  //this folder contains the normalized data we just created
+#### |    |     +-- ...
+#### |
+#### |
+#### +-- S20-team0-project
+#### |    +-- … //this is the cloned repo contents
 
 ### 3. Run the Demo using Pretrained Weights
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
