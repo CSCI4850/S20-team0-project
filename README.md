@@ -30,19 +30,19 @@ https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 # Read the Demo 
 
 ### 1. Read the Demo
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To see the performance of our trained models check out the demo here:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demo.ipynb
+To see the performance of our trained models check out the demo here:
+demo.ipynb
 
 # Demo: Option B    (Slow ~3 days)
 # Download Data, Normalize Data, and use Pretrained Models
 
 ### 1. Download the Data
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTE* The dataset is ONLY available by request--a request may take several days to process. Follow the instructions here to request the data: https://www.med.upenn.edu/cbica/brats2019/registration.html 
+NOTE* The dataset is ONLY available by request--a request may take several days to process. Follow the instructions here to request the data: https://www.med.upenn.edu/cbica/brats2019/registration.html 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before running the demo, you will need to download the data, place it at the same level in the file structure as the cloned repo
+Before running the demo, you will need to download the data, place it at the same level in the file structure as the cloned repo
 
 ### 2. Normalize the Data
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run the jupyter notebook named normalize_and_save_all_data.ipynb to save the normalized data.
+Run the jupyter notebook named normalize_and_save_all_data.ipynb to save the normalized data.
 
 This should produce a file structure like:
 
@@ -58,26 +58,26 @@ This should produce a file structure like:
 #### |    +-- … //this is the cloned repo contents
 
 ### 3. Run the Demo using Pretrained Weights
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
+Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
 
 # Demo: Option C     (Slowest ~5 days) 
 # Download Data, Normalize Data, and Train the Models Yourself
 
 
 ### 1. Download Data and Normalize Data
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Follow steps 1 & 2 in Option B.
+Follow steps 1 & 2 in Option B.
 
 ### 2. Train the models  (this overwrites the saved pretrained models)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are 4 experiments to run.
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTE* each experiment may take 10+ hours to run.
+There are 4 experiments to run.
+NOTE* each experiment may take 10+ hours to run.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
+Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
+Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
+Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
+Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
+ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
 
 ### 3. Run the Demo
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
+Once the previous steps are accomplished, open demo.ipynb and run all cells in the notebook.
