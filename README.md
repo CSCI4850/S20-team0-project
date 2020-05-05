@@ -3,6 +3,8 @@
 # Leabra Team
 # Tumor Segmentation for Brain MRI
 #
+# DEMO
+#
 # Project Motivation:
 Neural networks are mathematical models (often implemented as computer programs) that are  commonly used to make predictions on data, after having been trained on past data and outcomes. Using GPU acceleration is a common method to speed up training neural networks.
 
