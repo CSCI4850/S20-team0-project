@@ -12,7 +12,7 @@ Neural networks can be used for CAD and can be trained to make predictions about
 
 Training U-net on medical images benefits greatly from GPU acceleration. Having a limited setup in terms of GPUs can lead to running out of VRAM while training the traditional U-net.  A possible solution is to train a smaller version of U-net.
 
-# What we Did:
+# What We Did / Main Aim:
 We wanted to test how reducing the size of U-net would affect performance on tumor segmentation in brain MRI. We reduced the number of filters in the convolutional layers in U-net, which reduces the amount of VRAM required. 4 experiments were performed showing how U-net performance varies when it has all the filters, half the filters, a quarter of the filters, and an eighth of the filters. 
 
 ### Dependencies:
