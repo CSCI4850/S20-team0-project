@@ -32,7 +32,7 @@ https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 # Read the Demo 
 
 ### 1. Read the Demo
-To see the performance of our trained models check out the demo here:
+To see the performance of our trained models check out the demo in the demo folder:
 demo.ipynb
 
 # Demo: Option B    (Slow ~3 days)
