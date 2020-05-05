@@ -69,15 +69,17 @@ Once the previous steps are accomplished, open demo.ipynb and run all cells in t
 ### 1. Download Data and Normalize Data
 Follow steps 1 & 2 in Option B.
 
-### 2. Train the models  (this overwrites the saved pretrained models)
+### 2. Train the models  
 
 There are 4 experiments to run.
 NOTE* each experiment may take 10+ hours to run.
 
-Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
-Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
+- Run all the cells in the jupyter notebook called experiment_ds_1.ipynb
+- Run all the cells in the jupyter notebook called experiment_ds_2.ipynb
+- Run all the cells in the jupyter notebook called experiment_ds_4.ipynb
+- Run all the cells in the jupyter notebook called experiment_ds_8.ipynb
+
+Replace the trained models and weights in the saved_models folder with the new ones generated in the main directory.
 
 ds stands for the factor by which we are dividing the number of filters in each convolutional layer in U-net. Thus, ds_1 is the full U-net, ds_2 has half the filters, ds_4 has a quarter of the filters, and ds_8 has an eighth of the filters.
 
